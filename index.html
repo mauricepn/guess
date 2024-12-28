@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guess my Number</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body></body>
+  <header>
+    <button class="btn again">Again!</button>
+    <p class="between">(Between 1 and 20)</p>
+    <h1>Guess My Number!</h1>
+    <div class="number">?</div>
+    <hr />
+  </header>
+  <main>
+    <section class="left">
+      <input type="number" class="guess" /><br />
+      <button class="btn check">check</button>
+    </section>
+    <section class="right">
+      <p class="message">start guessing...</p>
+      <p class="label-score">💯 Score: <span class="score">20</span></p>
+      <p class="label-highscore">
+        🥇Highscore: <span class="highscore">0</span>
+      </p>
+    </section>
+  </main>
+  <footer>@MPcods_2024</footer>
+
+  <script>
+    "use strict";
+    const cheki = document.querySelector(".check");
+    let randomNumber = Math.floor(Math.random() * 20) + 1;
+    console.log("the screct number is " + randomNumber);
+    const mwili = document.querySelector("body");
+    const secretNumber = document.querySelector(".number");
+    const ujumbe = function (message) {
+      document.querySelector(".message").textContent = message;
+    };
+    let score = 20;
+    let highscore = 0;
+
+    // EVENT HANDLER, WHEN THE CHECK BUTTON HAS BEEN PRESSED !
+    cheki.addEventListener("click", function () {
+      const ingiza = Number(document.querySelector(".guess").value);
+      console.log(" the user input is " + ingiza);
+
+      // When No input
+      if (!ingiza) {
+        ujumbe("⛔️ Please Enter a Number !");
+        mwili.style.backgroundColor = "#222";
+      }
+
+      // When player wins
+      else if (ingiza === randomNumber) {
+        ujumbe("You got it right 🎉");
+
+        mwili.style.backgroundColor = "#118B50";
+        secretNumber.textContent = randomNumber;
+        secretNumber.style.width = "30rem";
+
+        // the high score will be equal to the the score when the game won. but next round it will stay the same if the player has a low score and it will only change if the player won the game with a higher score which will be set to be the new highscore
+
+        if (score > highscore) {
+          highscore = score;
+          document.querySelector(".highscore").textContent = highscore;
+        }
+      }
+
+      // When player lost
+      else if (ingiza !== randomNumber) {
+        ujumbe(ingiza > randomNumber ? "📈 Too high !" : "📉 Too Low ! ");
+        mwili.style.backgroundColor = "#740938";
+        if (score > 1) {
+          score--;
+          document.querySelector(".score").textContent = score;
+        } else {
+          ujumbe("GAME OVER 💥");
+          document.querySelector(".score").textContent = 0;
+        }
+      }
+    });
+
+    // detect Enter key to submit the check button
+
+    const namba = document.querySelector(".guess");
+    namba.addEventListener("keyup", function (e) {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        console.log("Enter is Pressed");
+        cheki.click();
+      }
+    });
+    //    RESET THE GAME
+
+    const reset = document.querySelector(".again");
+
+    reset.addEventListener("click", function () {
+      console.log("reset button clicked");
+      ujumbe("start guessing...");
+      mwili.style.backgroundColor = "#4a628a";
+      randomNumber = Math.floor(Math.random() * 20) + 1;
+      console.log(
+        `------ THE NEW SECRET NUMBER IS : " ${randomNumber} " --------`
+      );
+      score = 20;
+      document.querySelector(".score").textContent = score;
+      secretNumber.textContent = "?";
+      secretNumber.style.width = "15rem";
+      document.querySelector(".guess").value = "";
+    });
+    document.addEventListener("keydown", (Event) => {
+      if (event.key === "a") {
+        console.log("------ A key Pressed , Game has been reseted! ------");
+
+        ujumbe("start guessing...");
+        mwili.style.backgroundColor = "#4a628a";
+        randomNumber = Math.floor(Math.random() * 20) + 1;
+        console.log(
+          `------ THE NEW SECRET NUMBER IS : " ${randomNumber} " --------`
+        );
+        score = 20;
+        document.querySelector(".score").textContent = score;
+        secretNumber.textContent = "?";
+        secretNumber.style.width = "15rem";
+        document.querySelector(".guess").value = "";
+      }
+    });
+  </script>
+
+  <script src="script.js"></script>
+</html>
